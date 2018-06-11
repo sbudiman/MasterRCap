@@ -13,6 +13,14 @@ License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true
 URL: https://github.com/sbudiman/MasterRCap
+Imports: dplyr,
+    ggplot2,
+    grid,
+    leaflet,
+    magrittr,
+    scales,
+    stringr,
+    tidyr
 Suggests: knitr,
     rmarkdown,
     testthat
