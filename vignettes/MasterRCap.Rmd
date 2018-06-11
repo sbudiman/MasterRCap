@@ -45,7 +45,7 @@ Functions geom_timeline, geom_timeline_label and theme_timeline utilize `ggplot2
 
 ```{r eq_timeline_example, fig.width = 8, fig.height = 6}
 MajorEarthquakes %>% eq_clean_data() %>%
-     filter(COUNTRY %in% c("CHINA", "JAPAN"), YEAR > 2010) %>%
+     dplyr::filter(COUNTRY %in% c("CHINA", "JAPAN"), YEAR > 2010) %>%
      ggplot(aes(x = DATE,
                 y = COUNTRY,
                 color = as.numeric(TOTAL_DEATHS),
@@ -64,7 +64,7 @@ Functions eq_map utilizes `leaflet` functions to visualize earthquakes on a map.
 ```{r eq_map_example, fig.width = 8, fig.height = 6}
 MajorEarthquakes %>% 
   eq_clean_data() %>% 
-  dplyr::filter(COUNTRY == "INDONESIA" & lubridate::year(DATE) >= 2010) %>% 
+  dplyr::filter(COUNTRY == "INDONESIA" & YEAR >= 2010) %>% 
   dplyr::mutate(popup_text = eq_create_label(.)) %>% 
   eq_map(annot_col = "popup_text")
 ```
