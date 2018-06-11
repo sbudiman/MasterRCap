@@ -1,0 +1,20 @@
+Package: MasterRCap
+Type: Package
+Date: 2018-06-10
+Title: Mastering R Capstone Project for Earthquake Visualization
+Version: 0.1.0
+Author: San Budiman
+Maintainer: San Budiman <sbudiman@rocketmail.com>
+Description: MasterRCap package contains the capstone project for Coursera Mastering 
+    Software Development in R, which provides functions for data cleanup for raw data 
+    from NOAA, new Geoms for presenting earthquakes in timeline, along with labeling 
+    and theme, as well as earthquake map visualization.
+License: GPL (>= 2)
+Encoding: UTF-8
+LazyData: true
+URL: https://github.com/sbudiman/MasterRCap
+Suggests: knitr,
+    rmarkdown,
+    testthat
+VignetteBuilder: knitr
+RoxygenNote: 6.0.1
