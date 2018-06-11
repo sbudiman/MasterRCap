@@ -21,3 +21,4 @@ If you install with build_vignettes = TRUE, then you can read the introduction v
 
 
 ### Travis Badge
+[![Build Status](https://travis-ci.org/sbudiman/MasterRCap.svg?branch=master)](https://travis-ci.org/sbudiman/MasterRCap)
