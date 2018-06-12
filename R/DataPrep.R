@@ -68,7 +68,7 @@ eq_clean_data <- function(RawMEdf = MajorEarthquakes){
                   LATITUDE = as.numeric(LATITUDE),
                   LONGITUDE = as.numeric(LONGITUDE))
   for (locindex in 1:length(RawMEdf$LOCATION_NAME)) {
-    loc_list <- RawMEdf$LOCATION_NAME[locindex] %>% stringer::str_split('\\:') %>% unlist() %>% stringr::str_trim(side = "both")
+    loc_list <- RawMEdf$LOCATION_NAME[locindex] %>% stringr::str_split('\\:') %>% unlist() %>% stringr::str_trim(side = "both")
     if (length(loc_list) == 1) {
       RawMEdf$LOCATION_NAME[locindex] <- loc_list[1]
     } else if (length(loc_list) > 1) {
