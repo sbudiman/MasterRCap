@@ -16,6 +16,14 @@ knitr::opts_chunk$set(
 )
 ```
 
+```{r, echo = FALSE, include = FALSE}
+library(MasterRCap)
+library(dplyr)
+library(ggplot2)
+library(magrittr)
+library(readr)
+```
+
 MasterRCap package contains the capstone project for Coursera Mastering Software Development in R, which provides functions for data cleanup for raw data from NOAA, new Geoms for presenting earthquakes in timeline, along with labeling and theme, as well as earthquake map visualization. 
 
 ## Package Info 
@@ -46,7 +54,7 @@ Functions geom_timeline, geom_timeline_label and theme_timeline utilize `ggplot2
 ```{r eq_timeline_example, fig.width = 8, fig.height = 6}
 MajorEarthquakes %>% eq_clean_data() %>%
      dplyr::filter(COUNTRY %in% c("CHINA", "JAPAN"), YEAR > 2010) %>%
-     ggplot(aes(x = DATE,
+     ggplot2::ggplot(aes(x = DATE,
                 y = COUNTRY,
                 color = as.numeric(TOTAL_DEATHS),
                 size = as.numeric(EQ_PRIMARY)
@@ -54,7 +62,7 @@ MajorEarthquakes %>% eq_clean_data() %>%
      geom_timeline() +
      geom_timeline_label(aes(label = LOCATION_NAME), n_max = 3) +
      theme_timeline() +
-     labs(size = "Earthquake Magnitude", color = "Fatalities")
+     ggplot2::labs(size = "Earthquake Magnitude", color = "Fatalities")
 ```
 
 ## Display earthquakes on map
