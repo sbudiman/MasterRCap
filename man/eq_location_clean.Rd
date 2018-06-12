@@ -4,10 +4,11 @@
 \alias{eq_location_clean}
 \title{Cleans earthquake location data}
 \usage{
-eq_location_clean()
+eq_location_clean(RawMEdf = MajorEarthquakes)
 }
 \arguments{
-\item{data}{A data frame with raw data obtained from NOAA website (see details)}
+\item{RawMEdf}{A data frame with raw data obtained from NOAA website (see details).
+This defaults to sample data frame delivered in package MajorEarthquakes.}
 }
 \value{
 A data frame with cleaned LOCATION_NAME column

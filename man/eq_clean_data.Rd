@@ -4,10 +4,11 @@
 \alias{eq_clean_data}
 \title{Cleans earthquake data from NOAA}
 \usage{
-eq_clean_data(RawMEdf = MajorEarthquakesAD)
+eq_clean_data(RawMEdf = MajorEarthquakes)
 }
 \arguments{
-\item{data}{A data frame with raw data obtained from NOAA website (see details)}
+\item{RawMEdf}{A data frame with raw data obtained from NOAA website (see details).
+This defaults to sample data frame delivered in package MajorEarthquakes.}
 }
 \value{
 A data frame with cleaned date, latitude, longitude and location

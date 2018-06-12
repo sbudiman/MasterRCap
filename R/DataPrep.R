@@ -52,6 +52,7 @@ eq_location_clean <- function(RawMEdf = MajorEarthquakes){
 #' @importFrom tidyr replace_na
 #' @importFrom magrittr %>%
 #' @importFrom stringr str_split str_trim
+#' @importFrom lubridate make_date
 #'
 #' @export
 #'
@@ -62,7 +63,7 @@ eq_clean_data <- function(RawMEdf = MajorEarthquakes){
   if (!is.data.frame(RawMEdf)) stop("RawMEdf must be a data frame")
   if (!("LOCATION_NAME" %in% colnames(RawMEdf))) stop("RawMEdf data frame must have LOCATION_NAME")
   RawMEdf <- RawMEdf %>%
-                  dplyr::mutate(DATE = ISOdate(YEAR,
+                  dplyr::mutate(DATE = lubridate::make_date(YEAR,
                                  tidyr::replace_na(MONTH,1),
                                  tidyr::replace_na(DAY,1)),
                   LATITUDE = as.numeric(LATITUDE),
