@@ -7,12 +7,12 @@
 theme_timeline()
 }
 \description{
-This theme function provides better rendering for 
+This theme function provides better rendering for
 \code{\link{geom_timeline}}
 }
 \examples{
-   \dontrun{readr::read_delim(file=file.path("data","results"), delim='\\t') \%>\% 
-            eq_clean_data() \%>\% 
+   \dontrun{readr::read_delim(file=file.path("data","results"), delim='\\t') \%>\%
+            eq_clean_data() \%>\%
             dplyr::filter(COUNTRY == c("CHINA","JAPAN"), YEAR >= 2000) \%>\%
             ggplot2::ggplot(ggplot2::aes(x = DATE,
                             y = COUNTRY,
@@ -20,6 +20,6 @@ This theme function provides better rendering for
                             size = as.numeric(EQ_PRIMARY))) +
               geom_timeline() +
               geom_timeline_label(aes(label = LOCATION_NAME),n_max=3) +
-              theme_timeline() + 
+              theme_timeline() +
               labs(size = "Earthquake Magnitude", color = "Fatalities")}
 }

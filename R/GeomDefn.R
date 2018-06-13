@@ -7,7 +7,7 @@
 #' @inheritParams ggplot2::geom_point
 #'
 #' @details This geom function relies on the new Geom class called GeomTimeline
-#' that is created using \code{ggplot2::ggproto}. This new class specifies a number 
+#' that is created using \code{ggplot2::ggproto}. This new class specifies a number
 #' of attributes and functions that describe how data should be drawn on a plot.
 #'
 #' @importFrom ggplot2 ggproto Geom aes draw_key_point layer
@@ -17,51 +17,14 @@
 #' @export
 #'
 #' @examples
-#'    \dontrun{readr::read_delim(file=file.path("data","results"), delim='\t') %>% 
-#'             eq_clean_data() %>% 
+#'    \dontrun{readr::read_delim(file=file.path("data","results"), delim='\t') %>%
+#'             eq_clean_data() %>%
 #'             dplyr::filter(COUNTRY == c("CHINA","JAPAN"), YEAR >= 2000) %>%
 #'             ggplot2::ggplot(ggplot2::aes(x = DATE,
 #'                             y = COUNTRY,
 #'                             color = as.numeric(TOTAL_DEATHS),
 #'                             size = as.numeric(EQ_PRIMARY))) +
 #'               geom_timeline()}
-GeomTimeline <-
-  ggplot2::ggproto("GeomTimeline", ggplot2::Geom,
-                   required_aes = c("x"),
-                   default_aes = ggplot2::aes(colour = "grey", size = 1.5, alpha = 0.5,
-                                              shape = 19, fill = "grey", stroke = 0.5),
-                   draw_key = ggplot2::draw_key_point,
-                   draw_panel = function(data, panel_scales, coord) {
-                     
-                   if (!("y" %in% colnames(data))) {
-                     data$y <- 0.15
-                   }
-                     
-                   coords <- coord$transform(data, panel_scales)
-                     
-                   points <- grid::pointsGrob(
-                     coords$x, coords$y,
-                     pch = coords$shape, size = grid::unit(coords$size / 4, "char"),
-                     gp = grid::gpar(
-                       col = scales::alpha(coords$colour, coords$alpha),
-                       fill = scales::alpha(coords$colour, coords$alpha)
-                     )
-                   )
-                   
-                   y_lines <- unique(coords$y)
-                     
-                   lines <- grid::polylineGrob(
-                     x = grid::unit(rep(c(0, 1), each = length(y_lines)), "npc"),
-                     y = grid::unit(c(y_lines, y_lines), "npc"),
-                     id = rep(seq_along(y_lines), 2),
-                     gp = grid::gpar(col = "grey",
-                                     lwd = .pt)
-                   )
-                     
-                   grid::gList(points, lines)
-                   }
-  )
-
 geom_timeline <- function(mapping = NULL, data = NULL, stat = "identity",
                           position = "identity", na.rm = FALSE,
                           show.legend = NA, inherit.aes = TRUE, ...) {
@@ -73,19 +36,57 @@ geom_timeline <- function(mapping = NULL, data = NULL, stat = "identity",
   )
 }
 
+GeomTimeline <-
+  ggplot2::ggproto("GeomTimeline", ggplot2::Geom,
+                   required_aes = c("x"),
+                   default_aes = ggplot2::aes(colour = "grey", size = 1.5, alpha = 0.5,
+                                              shape = 19, fill = "grey", stroke = 0.5),
+                   draw_key = ggplot2::draw_key_point,
+                   draw_panel = function(data, panel_scales, coord) {
+
+                   if (!("y" %in% colnames(data))) {
+                     data$y <- 0.15
+                   }
+
+                   coords <- coord$transform(data, panel_scales)
+
+                   points <- grid::pointsGrob(
+                     coords$x, coords$y,
+                     pch = coords$shape, size = grid::unit(coords$size / 4, "char"),
+                     gp = grid::gpar(
+                       col = scales::alpha(coords$colour, coords$alpha),
+                       fill = scales::alpha(coords$colour, coords$alpha)
+                     )
+                   )
+
+                   y_lines <- unique(coords$y)
+
+                   lines <- grid::polylineGrob(
+                     x = grid::unit(rep(c(0, 1), each = length(y_lines)), "npc"),
+                     y = grid::unit(c(y_lines, y_lines), "npc"),
+                     id = rep(seq_along(y_lines), 2),
+                     gp = grid::gpar(col = "grey",
+                                     lwd = .pt)
+                   )
+
+                   grid::gList(points, lines)
+                   }
+  )
+
+
 #' Earthquake Timeline Label
 #'
 #' @description This geom plots timeline labels of earthquakes, and assumes that
 #' \code{geom_timeline} was used to create the timelines
 #'
 #' @inheritParams ggplot2::geom_text
-#' 
+#'
 #' @param n_max An integer. If used, it only plots the labels for the
 #' \code{n_max} largest earthquakes in the selected group in the timeline. Also,
 #' the timeline must have size as input parameter.
 #'
 #' @details This geom function relies on the new Geom class called GeomTimelineLabel
-#' that is created using \code{ggplot2::ggproto}. The required aesthetics for this 
+#' that is created using \code{ggplot2::ggproto}. The required aesthetics for this
 #' geom is \code{label} that should contain string for labeling each data point.
 #'
 #' @importFrom ggplot2 ggproto Geom draw_key_blank layer
@@ -95,8 +96,8 @@ geom_timeline <- function(mapping = NULL, data = NULL, stat = "identity",
 #' @export
 #'
 #' @examples
-#'    \dontrun{readr::read_delim(file=file.path("data","results"), delim='\t') %>% 
-#'             eq_clean_data() %>% 
+#'    \dontrun{readr::read_delim(file=file.path("data","results"), delim='\t') %>%
+#'             eq_clean_data() %>%
 #'             dplyr::filter(COUNTRY == c("CHINA","JAPAN"), YEAR >= 2000) %>%
 #'             ggplot2::ggplot(ggplot2::aes(x = DATE,
 #'                             y = COUNTRY,
@@ -104,6 +105,18 @@ geom_timeline <- function(mapping = NULL, data = NULL, stat = "identity",
 #'                             size = as.numeric(EQ_PRIMARY))) +
 #'               geom_timeline() +
 #'               geom_timeline_label(aes(label = LOCATION_NAME),n_max=3)}
+geom_timeline_label <- function(mapping = NULL, data = NULL, stat = "identity",
+                                position = "identity", ..., na.rm = FALSE,
+                                n_max = NULL, show.legend = NA,
+                                inherit.aes = TRUE) {
+  ggplot2::layer(
+    geom = GeomTimelineLabel, mapping = mapping,
+    data = data, stat = stat, position = position,
+    show.legend = show.legend, inherit.aes = inherit.aes,
+    params = list(na.rm = na.rm, n_max = n_max, ...)
+  )
+}
+
 GeomTimelineLabel <-
   ggplot2::ggproto(
     "GeomTimelineLabel", ggplot2::Geom,
@@ -123,15 +136,15 @@ GeomTimelineLabel <-
       data
     },
     draw_panel = function(data, panel_scales, coord, n_max) {
-      
+
       if (!("y" %in% colnames(data))) {
         data$y <- 0.15
       }
-      
+
       coords <- coord$transform(data, panel_scales)
       n_grp <- length(unique(data$group))
       offset <- 0.2 / n_grp
-      
+
       lines <- grid::polylineGrob(
         x = unit(c(coords$x, coords$x), "npc"),
         y = unit(c(coords$y, coords$y + offset), "npc"),
@@ -140,7 +153,7 @@ GeomTimelineLabel <-
           col = "grey"
         )
       )
-      
+
       names <- grid::textGrob(
         label = coords$label,
         x = unit(coords$x, "npc"),
@@ -149,26 +162,15 @@ GeomTimelineLabel <-
         rot = 45,
         check.overlap = TRUE
       )
-      
+
       grid::gList(lines, names)
     }
   )
 
-geom_timeline_label <- function(mapping = NULL, data = NULL, stat = "identity",
-                                position = "identity", ..., na.rm = FALSE,
-                                n_max = NULL, show.legend = NA,
-                                inherit.aes = TRUE) {
-  ggplot2::layer(
-    geom = GeomTimelineLabel, mapping = mapping,
-    data = data, stat = stat, position = position,
-    show.legend = show.legend, inherit.aes = inherit.aes,
-    params = list(na.rm = na.rm, n_max = n_max, ...)
-  )
-}
 
 #' Theme for better timeline visualization in ggplot2
 #'
-#' @description  This theme function provides better rendering for 
+#' @description  This theme function provides better rendering for
 #' \code{\link{geom_timeline}}
 #'
 #' @importFrom ggplot2 theme element_blank element_line
@@ -176,8 +178,8 @@ geom_timeline_label <- function(mapping = NULL, data = NULL, stat = "identity",
 #' @export
 #'
 #' @examples
-#'    \dontrun{readr::read_delim(file=file.path("data","results"), delim='\t') %>% 
-#'             eq_clean_data() %>% 
+#'    \dontrun{readr::read_delim(file=file.path("data","results"), delim='\t') %>%
+#'             eq_clean_data() %>%
 #'             dplyr::filter(COUNTRY == c("CHINA","JAPAN"), YEAR >= 2000) %>%
 #'             ggplot2::ggplot(ggplot2::aes(x = DATE,
 #'                             y = COUNTRY,
@@ -185,7 +187,7 @@ geom_timeline_label <- function(mapping = NULL, data = NULL, stat = "identity",
 #'                             size = as.numeric(EQ_PRIMARY))) +
 #'               geom_timeline() +
 #'               geom_timeline_label(aes(label = LOCATION_NAME),n_max=3) +
-#'               theme_timeline() + 
+#'               theme_timeline() +
 #'               labs(size = "Earthquake Magnitude", color = "Fatalities")}
 theme_timeline <- function() {
   ggplot2::theme(
