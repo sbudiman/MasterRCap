@@ -9,7 +9,7 @@ Description: MasterRCap package contains the capstone project for Coursera Maste
     Software Development in R, which provides functions for data cleanup for raw data 
     from NOAA, new Geoms for presenting earthquakes in timeline, along with labeling 
     and theme, as well as earthquake map visualization.
-License: GPL (>= 2)
+License: MIT
 Encoding: UTF-8
 LazyData: true
 URL: https://github.com/sbudiman/MasterRCap
